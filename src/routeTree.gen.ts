@@ -10,53 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ContactIndexRouteImport } from './routes/contact/index'
-import { Route as ContactIdIndexRouteImport } from './routes/contact/$id/index'
+import { Route as TodosCreateIndexRouteImport } from './routes/todos/create/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContactIndexRoute = ContactIndexRouteImport.update({
-  id: '/contact/',
-  path: '/contact/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactIdIndexRoute = ContactIdIndexRouteImport.update({
-  id: '/contact/$id/',
-  path: '/contact/$id/',
+const TodosCreateIndexRoute = TodosCreateIndexRouteImport.update({
+  id: '/todos/create/',
+  path: '/todos/create/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/contact/': typeof ContactIndexRoute
-  '/contact/$id/': typeof ContactIdIndexRoute
+  '/todos/create/': typeof TodosCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/contact': typeof ContactIndexRoute
-  '/contact/$id': typeof ContactIdIndexRoute
+  '/todos/create': typeof TodosCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/contact/': typeof ContactIndexRoute
-  '/contact/$id/': typeof ContactIdIndexRoute
+  '/todos/create/': typeof TodosCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact/' | '/contact/$id/'
+  fullPaths: '/' | '/todos/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/contact/$id'
-  id: '__root__' | '/' | '/contact/' | '/contact/$id/'
+  to: '/' | '/todos/create'
+  id: '__root__' | '/' | '/todos/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ContactIndexRoute: typeof ContactIndexRoute
-  ContactIdIndexRoute: typeof ContactIdIndexRoute
+  TodosCreateIndexRoute: typeof TodosCreateIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,18 +58,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contact/': {
-      id: '/contact/'
-      path: '/contact'
-      fullPath: '/contact/'
-      preLoaderRoute: typeof ContactIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact/$id/': {
-      id: '/contact/$id/'
-      path: '/contact/$id'
-      fullPath: '/contact/$id/'
-      preLoaderRoute: typeof ContactIdIndexRouteImport
+    '/todos/create/': {
+      id: '/todos/create/'
+      path: '/todos/create'
+      fullPath: '/todos/create/'
+      preLoaderRoute: typeof TodosCreateIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -87,8 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ContactIndexRoute: ContactIndexRoute,
-  ContactIdIndexRoute: ContactIdIndexRoute,
+  TodosCreateIndexRoute: TodosCreateIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
