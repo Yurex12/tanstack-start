@@ -1,4 +1,4 @@
-import { formateDate } from '#/lib/format'
+import { formatDate } from '#/lib/format'
 import type { Todo } from '#/lib/types'
 import { deleteTodoFn, updateTodoFn } from '#/server/todos'
 import { Link, useRouter } from '@tanstack/react-router'
@@ -6,7 +6,6 @@ import { useServerFn } from '@tanstack/react-start'
 import { Trash2 } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from './ui/button'
-
 
 export function Todo(todo: Todo) {
   const deleteTodo = useServerFn(deleteTodoFn)
@@ -48,7 +47,9 @@ export function Todo(todo: Todo) {
           to="/todos/$id"
           params={{ id: todo.id }}
           className={`text-sm font-medium transition truncate hover:underline hover:text-primary ${
-            todo.isComplete ? 'text-muted-foreground line-through' : 'text-foreground'
+            todo.isComplete
+              ? 'text-muted-foreground line-through'
+              : 'text-foreground'
           }`}
         >
           {todo.name}
@@ -69,7 +70,7 @@ export function Todo(todo: Todo) {
           className="text-xs text-muted-foreground"
           dateTime={new Date(todo.createdAt).toISOString()}
         >
-          {formateDate(todo.createdAt)}
+          {formatDate(todo.createdAt)}
         </time>
         <Button
           variant="destructive"

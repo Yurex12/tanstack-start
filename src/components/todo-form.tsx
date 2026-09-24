@@ -1,23 +1,8 @@
-import { db } from '#/db'
-import { todos } from '#/db/schema'
-import { redirect } from '@tanstack/react-router'
-import { createServerFn, useServerFn } from '@tanstack/react-start'
+import { createTodoFn } from '#/server/todos'
+import { useServerFn } from '@tanstack/react-start'
 import { useRef, useTransition, type SubmitEvent } from 'react'
-import z from 'zod'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-
-const createTodoFn = createServerFn({ method: 'POST' })
-  .validator(
-    z.object({
-      name: z.string().min(1, 'Name is required'),
-    }),
-  )
-  .handler(async ({ data }) => {
-    await db.insert(todos).values({ name: data.name })
-
-    throw redirect({ to: '/' })
-  })
 
 export function TodoForm() {
   const nameRef = useRef<HTMLInputElement>(null)
