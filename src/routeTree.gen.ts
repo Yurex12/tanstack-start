@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TodosIdIndexRouteImport } from './routes/todos/$id/index'
 import { Route as TodosCreateIndexRouteImport } from './routes/todos/create/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TodosIdIndexRoute = TodosIdIndexRouteImport.update({
+  id: '/todos/$id/',
+  path: '/todos/$id/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TodosCreateIndexRoute = TodosCreateIndexRouteImport.update({
@@ -25,27 +31,31 @@ const TodosCreateIndexRoute = TodosCreateIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/todos/$id/': typeof TodosIdIndexRoute
   '/todos/create/': typeof TodosCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/todos/$id': typeof TodosIdIndexRoute
   '/todos/create': typeof TodosCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/todos/$id/': typeof TodosIdIndexRoute
   '/todos/create/': typeof TodosCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/todos/create/'
+  fullPaths: '/' | '/todos/$id/' | '/todos/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/todos/create'
-  id: '__root__' | '/' | '/todos/create/'
+  to: '/' | '/todos/$id' | '/todos/create'
+  id: '__root__' | '/' | '/todos/$id/' | '/todos/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TodosIdIndexRoute: typeof TodosIdIndexRoute
   TodosCreateIndexRoute: typeof TodosCreateIndexRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/todos/$id/': {
+      id: '/todos/$id/'
+      path: '/todos/$id'
+      fullPath: '/todos/$id/'
+      preLoaderRoute: typeof TodosIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/todos/create/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TodosIdIndexRoute: TodosIdIndexRoute,
   TodosCreateIndexRoute: TodosCreateIndexRoute,
 }
 export const routeTree = rootRouteImport
